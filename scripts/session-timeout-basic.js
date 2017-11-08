@@ -1,5 +1,7 @@
 var isSessionActive = false;
 var startTimeout;
+var sessionTime = 6000;
+var warnTime = 3000;
 $(document).ready(function () {
 
    $(this).mousemove(function(event){
@@ -24,7 +26,7 @@ function sessionHandler() {
 }
 
 function watchSession() {
-    var warnTime = 3000;
+
    setTimeout(function () {
        showRenewPrompt();
 
@@ -39,11 +41,21 @@ function showRenewPrompt() {
     }
     else {
         alert('Your session will expire soon');
+        displayTimer();
     }
 }
 
+function displayTimer() {
+    var timeRemaining = sessionTime - warnTime;
+    setInterval(function () {
+        timeRemaining -= 1000;
+        //timeRemaining = timeRemaining/1000
+        $('#status-container').text('Session expires in: ' + timeRemaining/1000)
+    }, 1000);
+}
+
 function startSession() {
-    var sessionTime = 6000;
+
     startTimeout = setTimeout(function () {
         console.log('session');
         window.location.href = "logout.html";
