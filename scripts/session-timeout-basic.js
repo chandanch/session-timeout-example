@@ -1,17 +1,27 @@
+/**
+ * @description Handles session on the browser
+ * uses the javascript timeout API to handle sessions
+ * @author chandanch
+ * @annotated {false}
+ */
+
 var isSessionActive = false;
 var startTimeout;
 var sessionTime = 6000;
 var warnTime = 3000;
 $(document).ready(function () {
 
-   $(this).mousemove(function(event){
+   // Detect user interaction via mouse move
+    $(this).mousemove(function(event){
        $('#status').text('Active');
        sessionHandler();
    });
 
 });
 
-// Handle session
+/**
+ * @description Checks if the session is active or starts the session otherwise
+ */
 function sessionHandler() {
     // Check if the session is active
     if(isSessionActive === false) {
@@ -25,6 +35,9 @@ function sessionHandler() {
     }
 }
 
+/**
+ * @description shows prompt for session expiry
+ */
 function watchSession() {
 
    setTimeout(function () {
@@ -33,6 +46,9 @@ function watchSession() {
    }, warnTime);
 }
 
+/**
+ * @description shows prompt to renew session
+ */
 function showRenewPrompt() {
     var prompt = confirm('Do you want to renew session');
     console.log(prompt);
@@ -41,23 +57,36 @@ function showRenewPrompt() {
     }
     else {
         alert('Your session will expire soon');
+        // show timer if not renewed
         displayTimer();
     }
 }
 
+/**
+ * @description displays timer for session expiry
+ * shows in seconds
+ * @todo the style of the timer to be changed
+ */
 function displayTimer() {
+    // Remaining time is calculated by session time - warntime
     var timeRemaining = sessionTime - warnTime;
+    // update the remaining time for every second or 1000 milliseconds
     setInterval(function () {
         timeRemaining -= 1000;
-        //timeRemaining = timeRemaining/1000
+        // shows the time in seconds instead of milliseconds
         $('#status-container').text('Session expires in: ' + timeRemaining/1000)
     }, 1000);
 }
 
+/**
+ * @description start the user session
+ */
 function startSession() {
 
+    // timer starts when the session is active
     startTimeout = setTimeout(function () {
         console.log('session');
+        // redirect to logout after session times out
         window.location.href = "logout.html";
     }, sessionTime);
     watchSession();
