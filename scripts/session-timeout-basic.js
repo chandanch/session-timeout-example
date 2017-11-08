@@ -9,9 +9,12 @@ $(document).ready(function () {
 
 });
 
+// Handle session
 function sessionHandler() {
+    // Check if the session is active
     if(isSessionActive === false) {
         console.log('session is not active');
+        // if active set the session flag to true
         isSessionActive = true;
         startSession();
     }
@@ -32,9 +35,7 @@ function showRenewPrompt() {
     var prompt = confirm('Do you want to renew session');
     console.log(prompt);
     if(prompt) {
-        clearTimeout(startTimeout);
-        alert('Session renewed');
-        startSession();
+       renewSession();
     }
     else {
         alert('Your session will expire soon');
@@ -42,11 +43,16 @@ function showRenewPrompt() {
 }
 
 function startSession() {
-    isSessionActive = true;
     var sessionTime = 6000;
     startTimeout = setTimeout(function () {
         console.log('session');
         window.location.href = "logout.html";
     }, sessionTime);
     watchSession();
+}
+
+function renewSession() {
+    clearTimeout(startTimeout);
+    alert('Session renewed');
+    startSession();
 }
