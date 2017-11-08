@@ -33,9 +33,11 @@ function showRenewPrompt() {
     console.log(prompt);
     if(prompt) {
         clearTimeout(startTimeout);
+        alert('Session renewed');
         startSession();
     }
     else {
+        alert('Your session will expire soon');
     }
 }
 
@@ -44,6 +46,7 @@ function startSession() {
     var sessionTime = 6000;
     startTimeout = setTimeout(function () {
         console.log('session');
+        window.location.href = "logout.html";
     }, sessionTime);
     watchSession();
 }
