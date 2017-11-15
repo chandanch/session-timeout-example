@@ -100,6 +100,10 @@ function startSession() {
 function renewSession() {
     clearTimeout(startTimeout);
     alert('Session renewed');
+    // Call the renew session api
+    $.get('users/session/renew', function (data, status) {
+        alert('session renewed on server');
+    });
     startSession();
 }
 
