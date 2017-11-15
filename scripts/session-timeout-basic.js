@@ -118,7 +118,7 @@ function startIdleTimer() {
     // start the idle timer
     idleTimeout = setTimeout(function () {
         // show prompt if the idle time is more than 7 seconds: user can now start the session or logout
-        var prompt = confirm('Your session will expire now due to inactivity');
+        var prompt = confirm('Your session will expire now due to inactivity. Do you want to continue?');
         // if user selects to start session
         if(prompt) {
             // clear `idletimer`
