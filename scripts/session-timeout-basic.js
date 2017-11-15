@@ -7,13 +7,18 @@
 
 var isSessionActive = false;
 var startTimeout;
+var idleTimeout;
 var sessionTime = 6000;
 var warnTime = 3000;
+var idleTime = 7000;
 $(document).ready(function () {
 
-   // Detect user interaction via mouse move
+    // start the idle timer on page load
+    startIdleTimer();
+    // Detect user interaction via mouse move
     $(this).mousemove(function(event){
        $('#status').text('Active');
+       clearTimeout(idleTimeout);
        sessionHandler();
    });
 
@@ -87,7 +92,7 @@ function startSession() {
     startTimeout = setTimeout(function () {
         console.log('session');
         // redirect to logout after session times out
-        window.location.href = "logout.html";
+        logout();
     }, sessionTime);
     watchSession();
 }
@@ -96,4 +101,29 @@ function renewSession() {
     clearTimeout(startTimeout);
     alert('Session renewed');
     startSession();
+}
+
+function logout() {
+    window.location.href = "logout.html";
+}
+
+/**
+ * @description handles idle time
+ */
+function startIdleTimer() {
+    // start the idle timer
+    idleTimeout = setTimeout(function () {
+        // show prompt if the idle time is more than 7 seconds: user can now start the session or logout
+        var prompt = confirm('Your session will expire now due to inactivity');
+        // if user selects to start session
+        if(prompt) {
+            // clear `idletimer`
+            clearTimeout(idleTimeout);
+            // start the session
+            sessionHandler();
+        }
+        else {
+            logout();
+        }
+    }, idleTime)
 }
